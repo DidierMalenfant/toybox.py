@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
 #
-# toybox.py - A dependency management system for Lua on the Playdate.
-# Based on toybox by Jeremy McAnally (https://github.com/jm/toybox)
-#
 # Copyright 2022 by Didier Malenfant.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
