@@ -21,6 +21,13 @@
 # SOFTWARE.
 #
 
+import os
+
+
+# -- Functions
+def toyboxesFolder():
+    return os.path.join(os.getcwd(), 'toyboxes')
+
 
 # -- Classes
 class Dependency:
@@ -66,7 +73,9 @@ class Dependency:
 
         self.repo_name = self.username[first_slash_index + 1:-4]
         self.username = self.username[:first_slash_index]
-        self.folder = self.username + '/' + self.repo_name
 
     def description(self):
         return self.url + ' @ ' + self.at
+
+    def folder(self):
+        return os.path.join(toyboxesFolder(), self.username, self.repo_name)
