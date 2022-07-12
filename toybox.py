@@ -120,7 +120,7 @@ class Toybox:
             print('Boxfile is empty.')
         else:
             for dep in box_file.dependencies:
-                dep.printInfo()
+                print('       - ' + dep.description())
 
     def addDependency(self):
         if self.argument is None:

@@ -68,5 +68,5 @@ class Dependency:
         self.username = self.username[:first_slash_index]
         self.folder = self.username + '/' + self.repo_name
 
-    def printInfo(self):
-        print('       - ' + self.url + ' @ ' + self.at)
+    def description(self):
+        return self.url + ' @ ' + self.at
