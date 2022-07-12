@@ -22,6 +22,7 @@
 #
 
 import os
+import shutil
 
 
 # -- Functions
@@ -79,3 +80,9 @@ class Dependency:
 
     def folder(self):
         return os.path.join(toyboxesFolder(), self.username, self.repo_name)
+
+    def deleteFolder(self):
+        folder = self.folder()
+
+        if os.path.exists(folder):
+            shutil.rmtree(folder)

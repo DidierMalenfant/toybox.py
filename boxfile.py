@@ -64,7 +64,10 @@ class Boxfile:
     def removeDependency(self, url):
         for dep in self.dependencies:
             if dep.url == url:
+                dep.deleteFolder()
+
                 self.dependencies.remove(dep)
+
                 return
 
         raise SyntaxError('Couldn\'t find any dependency for URL ' + dep.url + '.')
