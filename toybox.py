@@ -108,8 +108,11 @@ class Toybox:
 
         switch.get(self.command)()
 
+    def boxfileFolder(self):
+        return os.getcwd()
+
     def printInfo(self):
-        box_file = Boxfile(os.getcwd())
+        box_file = Boxfile(self.boxfileFolder())
         if len(box_file.dependencies) == 0:
             print('Boxfile is empty.')
         else:
@@ -122,7 +125,7 @@ class Toybox:
 
         at = 'HEAD'
 
-        box_file = Boxfile(os.getcwd())
+        box_file = Boxfile(self.boxfileFolder())
         box_file.addDependency(self.argument, at)
         box_file.save()
 
@@ -132,7 +135,7 @@ class Toybox:
         if self.argument is None:
             raise SyntaxError('Expected an argument to \'remove\' command.')
 
-        box_file = Boxfile(os.getcwd())
+        box_file = Boxfile(self.boxfileFolder())
         box_file.removeDependency(self.argument)
         box_file.save()
 
