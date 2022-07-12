@@ -24,6 +24,8 @@
 import os
 import shutil
 
+from git import Git
+
 
 # -- Functions
 def toyboxesFolder():
@@ -80,6 +82,26 @@ class Dependency:
 
     def folder(self):
         return os.path.join(toyboxesFolder(), self.username, self.repo_name)
+
+    def isATagDependency(self):
+        return Git(self.url).isATag(self.at)
+
+    def isABranchDependency(self):
+        return Git(self.url).isABranch(self.at)
+
+    def install(self):
+        folder = self.folder()
+
+        if os.path.exists(folder):
+            shutil.rmtree(folder)
+
+        os.makedirs(folder, exist_ok=True)
+
+        Git(self.url).cloneIn(self.at, folder)
+
+        dependency_git_folder = os.path.join(folder, '.git')
+        if os.path.exists(dependency_git_folder):
+            shutil.rmtree(dependency_git_folder)
 
     def deleteFolder(self):
         folder = self.folder()

@@ -145,7 +145,12 @@ class Toybox:
         print('Removed a dependency for \'' + self.argument + '\'.')
 
     def install(self):
-        raise SyntaxError('Currently not implemented.')
+        box_file = Boxfile(boxfileFolder())
+        for dep in box_file.dependencies:
+            print('Installing \'' + dep.description() + '\'.')
+            dep.install()
+
+        print('Finished.')
 
     def update(self):
         raise SyntaxError('Currently not implemented.')
