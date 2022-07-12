@@ -86,6 +86,8 @@ class Toybox:
 
         except getopt.GetoptError:
             raise ArgumentError('Error reading arguments.')
+        except KeyboardInterrupt:
+            pass
 
     def main(self):
         switch = {

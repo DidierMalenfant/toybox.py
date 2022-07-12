@@ -49,6 +49,8 @@ class Boxfile:
                 json_content = json.load(file)
         except Exception as e:
             raise SyntaxError('Malformed JSON in Boxfile \'' + self.boxfile_path + '\'.\n' + str(e) + '.')
+        except KeyboardInterrupt:
+            pass
 
         if json_content is None:
             return
