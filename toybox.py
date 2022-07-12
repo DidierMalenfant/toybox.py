@@ -20,3 +20,143 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 #
+
+import getopt
+import sys
+import os
+
+from boxfile import Boxfile
+
+
+# -- Constants
+VERSION_NUMBER = '0.0.1'
+
+
+# -- Functions
+def printVersion():
+    print('🧸 toybox.py v' + VERSION_NUMBER)
+
+
+def printUsage():
+    printVersion()
+    print('Usage:')
+    print('    toybox help                      - Show a help message.')
+    print('    toybox version                   - Get the Toybox version.')
+    print('    toybox info                      - Describe your dependency set.')
+    print('    toybox add <dependency>          - Add a new dependency.')
+    print('    toybox remove <dependency>       - Remove a dependency.')
+    print('    toybox install                   - Install all the dependencies.')
+    print('    toybox update <dependency>       - Update a single dependency.')
+
+
+# -- Classes
+class ArgumentError(Exception):
+    """Error caused when command line arguments have something wrong in them."""
+    pass
+
+
+class Toybox:
+    """A dependency management system for Lua on the Playdate."""
+    """Based on toybox by Jeremy McAnally (https://github.com/jm/toybox)."""
+
+    def __init__(self, args):
+        """Initialise toybox based on user configuration."""
+
+        try:
+            # -- Gather the arguments
+            opts, other_arguments = getopt.getopt(args, '')
+
+            if len(other_arguments) == 0:
+                raise SyntaxError('Expected a command!  Maybe start with `toybox help`?')
+
+            number_of_arguments = len(other_arguments)
+
+            self.argument = None
+
+            i = 0
+            self.command = other_arguments[i]
+            i += 1
+
+            if i != number_of_arguments:
+                self.argument = other_arguments[i]
+                i += 1
+
+            if i != number_of_arguments:
+                raise SyntaxError('Too many commands on command line.')
+
+        except getopt.GetoptError:
+            raise ArgumentError('Error reading arguments.')
+
+    def main(self):
+        switch = {
+            'help': printUsage,
+            'version': printVersion,
+            'info': self.printInfo,
+            'add': self.addDependency,
+            'remove': self.removeDependency,
+            'install': self.install,
+            'update': self.update
+        }
+
+        if self.command is None:
+            print('No command found.\n')
+            self.printUsage()
+            return
+
+        if self.command not in switch:
+            raise ArgumentError('Unknow command \'' + self.command + '\'.')
+
+        switch.get(self.command)()
+
+    def printInfo(self):
+        box_file = Boxfile(os.getcwd())
+        if len(box_file.dependencies) == 0:
+            print('Boxfile is empty.')
+        else:
+            for dep in box_file.dependencies:
+                dep.printInfo()
+
+    def addDependency(self):
+        if self.argument is None:
+            raise SyntaxError('Expected an argument to \'add\' command.')
+
+        at = 'HEAD'
+
+        box_file = Boxfile(os.getcwd())
+        box_file.addDependency(self.argument, at)
+        box_file.save()
+
+        print('Added a dependency for \'' + self.argument + '\' at \'' + at + '\'.')
+
+    def removeDependency(self):
+        if self.argument is None:
+            raise SyntaxError('Expected an argument to \'remove\' command.')
+
+        box_file = Boxfile(os.getcwd())
+        box_file.removeDependency(self.argument)
+        box_file.save()
+
+        print('Removed a dependency for \'' + self.argument + '\'.')
+
+    def install(self):
+        raise SyntaxError('Currently not implemented.')
+
+    def update(self):
+        raise SyntaxError('Currently not implemented.')
+
+
+def main():
+    try:
+        # -- Remove the first argument (which is the script filename)
+        Toybox(sys.argv[1:]).main()
+    except ArgumentError as e:
+        print(str(e) + '\n')
+        printUsage()
+    except Exception as e:
+        print(e)
+    except KeyboardInterrupt:
+        pass
+
+
+if __name__ == '__main__':
+    main()
