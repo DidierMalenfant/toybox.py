@@ -56,10 +56,16 @@ class Boxfile:
             return
 
         for key in json_content.keys():
-            self.dependencies.append(Dependency(key, json_content[key]))
+            self.addDependency(key, json_content[key])
 
     def addDependency(self, url, at):
-        self.dependencies.append(Dependency(url, at))
+        new_dependency = Dependency(url, at)
+
+        for dep in self.dependencies:
+            if dep.url == new_dependency.url:
+                raise SyntaxError('Dependency for URL \'' + dep.url + '\' already exists.')
+
+        self.dependencies.append(new_dependency)
 
     def removeDependency(self, url):
         for dep in self.dependencies:
