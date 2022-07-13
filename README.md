@@ -6,7 +6,6 @@ This is an experimental Python implementation of [toybox](https://github.com/jm/
 
 TODO:
 
-* Make a list of dependencies in order as we install them.
 * Clean up any dependencies that were removed without using the remove command.
 * Resolve version numbers correctly (>=, <=, etc...)
 * Connect Lua code by generating toyboxes.lua.

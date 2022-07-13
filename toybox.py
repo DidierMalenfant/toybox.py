@@ -152,7 +152,11 @@ class Toybox:
         for child_dep in box_file.dependencies:
             self.installDependency(child_dep)
 
+        self.dependencies.append(dep)
+
     def install(self):
+        self.dependencies = []
+
         box_file = Boxfile(boxfileFolder())
         for dep in box_file.dependencies:
             self.installDependency(dep)
