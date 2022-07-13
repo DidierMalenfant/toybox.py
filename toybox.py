@@ -144,11 +144,18 @@ class Toybox:
 
         print('Removed a dependency for \'' + self.argument + '\'.')
 
+    def installDependency(self, dep):
+        print('Installing \'' + dep.description() + '\'.')
+        dep.install()
+
+        box_file = Boxfile(dep.folder())
+        for child_dep in box_file.dependencies:
+            self.installDependency(child_dep)
+
     def install(self):
         box_file = Boxfile(boxfileFolder())
         for dep in box_file.dependencies:
-            print('Installing \'' + dep.description() + '\'.')
-            dep.install()
+            self.installDependency(dep)
 
         print('Finished.')
 

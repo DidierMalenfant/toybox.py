@@ -6,7 +6,7 @@ This is an experimental Python implementation of [toybox](https://github.com/jm/
 
 TODO:
 
-* Recurse into toyboxes and add any extra dependencies in order.
+* Make a list of dependencies in order as we install them.
 * Resolve version numbers correctly (>=, <=, etc...)
 * Connect Lua code by generating toyboxes.lua.
 * Connect C code by generating toyboxes.mk and toyboxes.h.
