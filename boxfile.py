@@ -76,14 +76,14 @@ class Boxfile:
 
                 return
 
-        raise SyntaxError('Couldn\'t find any dependency for URL ' + dep.url + '.')
+        raise SyntaxError('Couldn\'t find any dependency for URL \'' + dep.url + '\'.')
 
     def save(self):
         json_content = {}
 
         for dep in self.dependencies:
             if dep.url in json_content:
-                raise SyntaxError('Found two entries for URL ' + dep.url + ' when saving Boxfile.')
+                raise SyntaxError('Found two entries for URL \'' + dep.url + '\' when saving Boxfile.')
 
             json_content[dep.url] = dep.at
 
