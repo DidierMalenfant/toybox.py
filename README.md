@@ -6,6 +6,7 @@ This is an experimental Python implementation of [toybox](https://github.com/jm/
 
 TODO:
 
+* Move previous toyboxes aside so that we can restore them if something goes wrong.
 * Clean up any dependencies that were removed without using the remove command.
 * Resolve version numbers correctly (>=, <=, etc...)
 * Connect Lua code by generating toyboxes.lua.
@@ -14,7 +15,9 @@ TODO:
 * Make info command point out when dependencies have not been installed.
 * Copy any Luacheck std if it's present in a toybox.
 * Add support for git submodules instead of cloning.
+* Add unit tests.
 * Implement update command.
+* Documentation.
 * Make it available on pip.
 * Set up a toybox registery (toystore?) on Github to refer to dependencies with a single name (i.e. pdutility).
 
