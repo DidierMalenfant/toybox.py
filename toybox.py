@@ -214,6 +214,7 @@ def main():
     except Exception as e:
         print(e)
     except KeyboardInterrupt:
+        print('Execution interupted by user.')
         pass
 
 
