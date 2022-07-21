@@ -47,7 +47,7 @@ def printUsage():
     print('    toybox info                      - Describe your dependency set.')
     print('    toybox add <dependency>          - Add a new dependency.')
     print('    toybox remove <dependency>       - Remove a dependency.')
-    print('    toybox install                   - Install all the dependencies.')
+    print('    toybox update                    - Update all the dependencies.')
     print('    toybox update <dependency>       - Update a single dependency.')
 
 
@@ -129,7 +129,6 @@ class Toybox:
             'info': self.printInfo,
             'add': self.addDependency,
             'remove': self.removeDependency,
-            'install': self.install,
             'update': self.update
         }
 
@@ -183,7 +182,10 @@ class Toybox:
 
         self.dependencies.append(dep)
 
-    def install(self):
+    def update(self):
+        if self.argument is not None:
+            raise SyntaxError('Currently not implemented.')
+
         self.dependencies = []
 
         backupToyboxes()
@@ -199,9 +201,6 @@ class Toybox:
         deleteToyboxesBackup()
 
         print('Finished.')
-
-    def update(self):
-        raise SyntaxError('Currently not implemented.')
 
 
 def main():

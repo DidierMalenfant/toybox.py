@@ -14,7 +14,7 @@ TODO:
 * Copy any Luacheck std if it's present in a toybox.
 * Add support for git submodules instead of cloning.
 * Add unit tests.
-* Implement update command.
+* Implement update single dependency command.
 * Documentation.
 * Make it available on pip.
 * Set up a toybox registery (toystore?) on Github to refer to dependencies with a single name (i.e. pdutility).
