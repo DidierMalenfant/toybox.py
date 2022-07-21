@@ -24,8 +24,10 @@
 import getopt
 import sys
 import os
+import shutil
 
 from boxfile import Boxfile
+from dependency import toyboxesFolder
 
 
 # -- Constants
@@ -51,6 +53,33 @@ def printUsage():
 
 def boxfileFolder():
     return os.getcwd()
+
+
+def toyboxesBackupFolder():
+    return toyboxesFolder() + '.backup'
+
+
+def backupToyboxes():
+    toyboxes_folder = toyboxesFolder()
+    toyboxes_backup_folder = toyboxesBackupFolder()
+    if os.path.exists(toyboxes_folder):
+        shutil.move(toyboxes_folder, toyboxes_backup_folder)
+
+
+def restoreToyboxesBackup():
+    toyboxes_folder = toyboxesFolder()
+    if os.path.exists(toyboxes_folder):
+        shutil.rmtree(toyboxes_folder)
+
+    toyboxes_backup_folder = toyboxesBackupFolder()
+    if os.path.exists(toyboxes_backup_folder):
+        shutil.move(toyboxes_backup_folder, toyboxes_folder)
+
+
+def deleteToyboxesBackup():
+    toyboxes_backup_folder = toyboxesBackupFolder()
+    if os.path.exists(toyboxes_backup_folder):
+        shutil.rmtree(toyboxes_backup_folder)
 
 
 # -- Classes
@@ -157,9 +186,17 @@ class Toybox:
     def install(self):
         self.dependencies = []
 
-        box_file = Boxfile(boxfileFolder())
-        for dep in box_file.dependencies:
-            self.installDependency(dep)
+        backupToyboxes()
+
+        try:
+            box_file = Boxfile(boxfileFolder())
+            for dep in box_file.dependencies:
+                self.installDependency(dep)
+        except Exception:
+            restoreToyboxesBackup()
+            raise
+
+        deleteToyboxesBackup()
 
         print('Finished.')
 
